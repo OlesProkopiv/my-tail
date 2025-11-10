@@ -33,3 +33,9 @@ jobs:
       # 5. Публікуємо імідж
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-tail:latest
+      # 6. Публікація на PyPI
+      - name: Build and publish to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.6.0
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
