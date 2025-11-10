@@ -6,12 +6,12 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text(encoding="utf-8")
 
 setup(
-    name="my-tail",
-    version="0.1.1",
+    name="my-tail",  # назва пакету, вона ж буде в PyPI
+    version="0.2.0",  # версія пакету
     description="A small implementation of Unix tail (supports -n and -f) implemented with Click",
     long_description=README,
     long_description_content_type="text/markdown",
-    author="Олесь Прокопів",
+    author="Ваше Ім'я",
     packages=find_packages(exclude=("tests",)),
     include_package_data=True,
     install_requires=[
@@ -19,7 +19,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "my-tail = my_tail.cli:cli",
+            "my-tail = my_tail.cli:cli",  # точка входу для консольної команди
         ],
     },
     classifiers=[
@@ -28,4 +28,3 @@ setup(
     ],
     python_requires=">=3.8",
 )
-#feferer

@@ -1,4 +1,4 @@
-name: Build and Publish
+name: Build Docker & Publish Python Package
 
 on:
   push:
@@ -15,18 +15,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Будуємо Docker-імідж локально
+      # 2. Встановлюємо Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # 3. Будуємо Docker-імідж
       - name: Build Docker image
         run: docker build -t my-tail:latest .
 
-      # 3. Запуск контейнера (опціонально)
+      # 4. Тестуємо Docker-імідж (опційно)
       - name: Test Docker image
         run: docker run --rm my-tail --help
 
-      # 4. Публікація на Test PyPI
-      - name: Build and publish to Test PyPI
-        uses: pypa/gh-action-pypi-publish@v1.6.0
-        with:
-          repository_url: https://test.pypi.org/legacy/
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+      # 5. Встановлюємо інструменти для збірки пакету
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      # 6. Будуємо пакет
+      - name: Build Python package
+        run: python -m build
+
+      # 7. Публікуємо на Test PyPI
+      - name: Publish to Test PyPI
+        run: |
+          python -m twine upload \
+            --repository-url https://test.pypi.org/legacy/ \
+            -u __token__ \
+            -p ${{ secrets.PYPI_API_TOKEN }} \
+            dist/*
