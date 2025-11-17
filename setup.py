@@ -4,7 +4,7 @@ import pathlib
 
 HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text(encoding="utf-8")
-
+#jhjhjhj
 setup(
     name="my-tail",  # назва пакету, вона ж буде в PyPI
     version="0.2.0",  # версія пакету
